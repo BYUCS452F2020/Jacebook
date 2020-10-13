@@ -63,26 +63,19 @@ public class SQLInitTables {
         openConnection();
 
         //table definitions
-        StringBuilder person = new StringBuilder();
-        person.append("create table if not exists person ( ");
-        person.append("person_id varchar(255) not null primary key, ");
-        person.append("descendant varchar(255) not null, ");
-        person.append("first_name varchar(255) not null, ");
-        person.append("last_name varchar(255) not null, ");
-        person.append("gender varchar(1) not null, ");
-        person.append("father varchar(255), ");
-        person.append("mother varchar(255), ");
-        person.append("spouse varchar(255), ");
-        person.append("constraint ck_gender check (gender in ('m', 'f', '?')) ");
-        person.append(");");
-
+        StringBuilder users = new StringBuilder();
+        users.append("create table if not exists Users ( ");
+        users.append("alias varchar(255) not null primary key, ");
+        users.append("name varchar(255) not null, ");
+        users.append("photo varchar(255) ");
+        users.append(");");
 
 
         try {
             Statement stmt = null;
             try {
                 stmt = conn.createStatement();
-                stmt.executeUpdate(person.toString());
+                stmt.executeUpdate(users.toString());
                 closeConnection(true);
             } finally {
                 if (stmt != null) stmt.close();
