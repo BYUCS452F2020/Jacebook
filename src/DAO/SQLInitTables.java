@@ -86,6 +86,25 @@ public class SQLInitTables {
                 "photo varchar(255)); ";
         runSQL(users);
 
+        String hashtag = "CREATE TABLE IF NOT EXISTS HASHTAGS (" +
+                "hashtagID varchar(255) not NULL, " +
+                "hashtag varchar(255) not NULL, " +
+                "postID varchar(255) not NULL, " +
+                "PRIMARY KEY (hashtagID), " +
+                "FOREIGN KEY (postID) REFERENCES Posts(postID));";
+        runSQL(hashtag);
+
+        String posts = "CREATE TABLE IF NOT EXISTS POSTS (" +
+                "postID varchar(255) not NULL, " +
+                "alias varchar(255) not NULL, " +
+                "content varchar(255) not NULL, " +
+                "timestamp varchar(255) not NULL, " +
+                "image varchar(255), " +
+                "video varchar(255), " +
+                "PRIMARY KEY (postID), " +
+                "FOREIGN KEY (alias) REFERENCES Users(alias));";
+        runSQL(posts);
+
         String followers = "CREATE TABLE IF NOT EXISTS FOLLOWERS " +
                 "(followersID VARCHAR(255) not NULL, " +
                 "userAlias VARCHAR(255) not NULL, " +
