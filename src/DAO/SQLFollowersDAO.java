@@ -29,7 +29,7 @@ public class SQLFollowersDAO implements IFollowersDAO{
                     try {
                         stmt.close();
                     } catch (Throwable var6) {
-                        var7.addSuppressed(var6)
+                        var7.addSuppressed(var6);
                     }
                 }
                 throw var7;

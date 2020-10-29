@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61aede57-33f3-463f-80d7-60378896277f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Context/GetFeed/GetFeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Context/GetFeed/GetFeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Context/SignIn/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Context/SignIn/SignIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Context/SignOut/SignOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Context/SignOut/SignOut.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAO/SQLAuthTokenDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/SQLAuthTokenDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAO/SQLFeedDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/SQLFeedDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAO/SQLInitTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/SQLInitTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAO/SQLFollowersDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/SQLFollowersDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAO/SQLFollowingDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAO/SQLFollowingDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1600445233710</updated>
-      <workItem from="1603931199758" duration="9631000" />
+      <workItem from="1603931199758" duration="9879000" />
     </task>
     <task id="LOCAL-00001" summary="Create Backend">
       <created>1601048972651</created>
