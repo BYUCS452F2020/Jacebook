@@ -2,7 +2,15 @@ package DAO;
 
 import Model.User;
 
+import java.sql.Connection;
+
 public class SQLUsersDAO implements IUsersDAO {
+    private final Connection conn;
+
+    public SQLUsersDAO(Connection conn) {
+        this.conn = conn;
+    }
+
     public void addUser(String alias, String name, String photo, String password) {
         return;
     }

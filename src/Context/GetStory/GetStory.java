@@ -1,6 +1,7 @@
 package Context.GetStory;
 
 import Context.HttpUtils;
+import Context.SignIn.SignInResponse;
 import DAO.*;
 import Model.User;
 import com.google.gson.Gson;
@@ -11,7 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class GetStory {/*implements HttpHandler {
+public class GetStory implements HttpHandler {
 
     private Gson g;
     private IStoryDAO storyDAO;
@@ -75,5 +76,5 @@ public class GetStory {/*implements HttpHandler {
     private void send500(HttpExchange exchange) throws IOException {
         exchange.sendResponseHeaders(500, 0);
         exchange.getResponseBody().close();
-    }*/
+    }
 }
