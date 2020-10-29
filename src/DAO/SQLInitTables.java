@@ -58,32 +58,69 @@ public class SQLInitTables {
         }
     }
 
+    private void runSQL(String runStatement){
+        openConnection();
+
+        try{
+            Statement stmt = null;
+            try{
+                stmt = conn.createStatement();
+                stmt.executeUpdate(runStatement.toString());
+                closeConnection(true);
+            } finally{
+                if (stmt != null) stmt.close();
+            }
+        }catch (SQLException e){
+            closeConnection(false);
+            e.printStackTrace();
+        }
+    }
 
     public void createTables() {
         openConnection();
 
         //table definitions
-        StringBuilder users = new StringBuilder();
-        users.append("create table if not exists Users ( ");
-        users.append("alias varchar(255) not null primary key, ");
-        users.append("name varchar(255) not null, ");
-        users.append("photo varchar(255) ");
-        users.append(");");
+        String users = "create table if not exists Users ( " +
+                "alias varchar(255) not null primary key, " +
+                "name varchar(255) not null, " +
+                "photo varchar(255)); ";
+        runSQL(users);
 
+        String followers = "CREATE TABLE IF NOT EXISTS FOLLOWERS " +
+                "(followersID VARCHAR(255) not NULL, " +
+                "userAlias VARCHAR(255) not NULL, " +
+                "followerAlias VARCHAR(255) not NULL, " +
+                "PRIMARY KEY (followersID), " +
+                "FOREIGN KEY (userAlias) REFERENCES Users(alias), " +
+                "FOREIGN KEY (followerAlias) REFERENCES Users(alias));";
+        runSQL(followers);
 
-        try {
-            Statement stmt = null;
-            try {
-                stmt = conn.createStatement();
-                stmt.executeUpdate(users.toString());
-                closeConnection(true);
-            } finally {
-                if (stmt != null) stmt.close();
-            }
-        } catch (SQLException e) {
-            closeConnection(false);
-            e.printStackTrace();
-        }
+        String following = "CREATE TABLE IF NOT EXISTS FOLLOWERS " +
+                "(followingID VARCHAR(255) not NULL, " +
+                "userAlias VARCHAR(255) not NULL, " +
+                "followingAlias VARCHAR(255) not NULL, " +
+                "PRIMARY KEY (followersID), " +
+                "FOREIGN KEY (userAlias) REFERENCES Users(alias), " +
+                "FOREIGN KEY (followerAlias) REFERENCES Users(alias));";
+        runSQL(following);
+
+        String authToken = "CREATE TABLE IF NOT EXISTS AuthToken " +
+                "(AuthToken VARCHAR(255) NOT NULL UNIQUE, " +
+                "Alias VARCHAR(255) NOT NULL, " +
+                "Timestamp VARCHAR(255) NOT NULL, " +
+                "PRIMARY KEY (AuthToken), " +
+                "FOREIGN KEY (Alias) REFERENCES Users(Alias));";
+        runSQL(authToken);
+
+        String feed = "Create TABLE IF NOT EXISTS Feed " +
+                "(FeedID VARCHAR(255) NOT NULL UNIQUE, " +
+                "Alias VARCHAR(255) NOT NULL, " +
+                "PostID VARCHAR(255) NOT NULL, " +
+                "PRIMARY KEY (FeedID), " +
+                "FOREIGN KEY (Alias) REFERENCES Users(Alias), " +
+                "FOREIGN KEY (PostID) REFERENCES Posts(PostID));";
+        runSQL(feed);
+
     }
 
     public static void main(String[] args) {
