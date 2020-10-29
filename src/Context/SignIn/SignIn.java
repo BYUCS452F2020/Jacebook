@@ -24,7 +24,7 @@ public class SignIn implements HttpHandler {
     public SignIn() {
         g = new Gson();
         usersDAO = new SQLUsersDAO();
-        authTokenDAO = new SQLAuthTokenDAO();
+        authTokenDAO = new SQLAuthTokenDAO(conn);
     }
 
     @Override

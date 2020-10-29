@@ -86,7 +86,7 @@ public class SQLInitTables {
                 "photo varchar(255)); ";
         runSQL(users);
 
-        String hashtag = "CREATE TABLE IF NOT EXISTS HASHTAGS (" +
+        String hashtag = "CREATE TABLE IF NOT EXISTS Hashtags (" +
                 "hashtagID varchar(255) not NULL, " +
                 "hashtag varchar(255) not NULL, " +
                 "postID varchar(255) not NULL, " +
@@ -94,7 +94,7 @@ public class SQLInitTables {
                 "FOREIGN KEY (postID) REFERENCES Posts(postID));";
         runSQL(hashtag);
 
-        String posts = "CREATE TABLE IF NOT EXISTS POSTS (" +
+        String posts = "CREATE TABLE IF NOT EXISTS Posts (" +
                 "postID varchar(255) not NULL, " +
                 "alias varchar(255) not NULL, " +
                 "content varchar(255) not NULL, " +
@@ -105,7 +105,7 @@ public class SQLInitTables {
                 "FOREIGN KEY (alias) REFERENCES Users(alias));";
         runSQL(posts);
 
-        String followers = "CREATE TABLE IF NOT EXISTS FOLLOWERS " +
+        String followers = "CREATE TABLE IF NOT EXISTS Followers " +
                 "(followersID VARCHAR(255) not NULL, " +
                 "userAlias VARCHAR(255) not NULL, " +
                 "followerAlias VARCHAR(255) not NULL, " +
@@ -114,7 +114,7 @@ public class SQLInitTables {
                 "FOREIGN KEY (followerAlias) REFERENCES Users(alias));";
         runSQL(followers);
 
-        String following = "CREATE TABLE IF NOT EXISTS FOLLOWERS " +
+        String following = "CREATE TABLE IF NOT EXISTS Following " +
                 "(followingID VARCHAR(255) not NULL, " +
                 "userAlias VARCHAR(255) not NULL, " +
                 "followingAlias VARCHAR(255) not NULL, " +
@@ -124,17 +124,17 @@ public class SQLInitTables {
         runSQL(following);
 
         String authToken = "CREATE TABLE IF NOT EXISTS AuthToken " +
-                "(AuthToken VARCHAR(255) NOT NULL UNIQUE, " +
-                "Alias VARCHAR(255) NOT NULL, " +
-                "Timestamp VARCHAR(255) NOT NULL, " +
+                "(authToken VARCHAR(255) NOT NULL UNIQUE, " +
+                "alias VARCHAR(255) NOT NULL, " +
+                "timestamp VARCHAR(255) NOT NULL, " +
                 "PRIMARY KEY (AuthToken), " +
                 "FOREIGN KEY (Alias) REFERENCES Users(Alias));";
         runSQL(authToken);
 
         String feed = "Create TABLE IF NOT EXISTS Feed " +
                 "(FeedID VARCHAR(255) NOT NULL UNIQUE, " +
-                "Alias VARCHAR(255) NOT NULL, " +
-                "PostID VARCHAR(255) NOT NULL, " +
+                "alias VARCHAR(255) NOT NULL, " +
+                "postID VARCHAR(255) NOT NULL, " +
                 "PRIMARY KEY (FeedID), " +
                 "FOREIGN KEY (Alias) REFERENCES Users(Alias), " +
                 "FOREIGN KEY (PostID) REFERENCES Posts(PostID));";

@@ -2,12 +2,47 @@ package DAO;
 
 import Model.Post;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SQLFeedDAO implements IFeedDAO {
+    private final Connection conn;
+
+    public SQLFeedDAO(Connection conn) {
+        this.conn = conn;
+    }
+
     public void addToFeed(Post toAdd, String alias) {
-        return;
+        String feedID = UUID.randomUUID().toString();
+        String sql = "INSERT INTO Feed (feedID, alias, postID) VALUES(?,?,?)";
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+
+            try {
+                stmt.setString(1, feedID);
+                stmt.setString(2, alias);
+                stmt.setString(3, toAdd.id);
+                stmt.executeUpdate();
+            } catch (Throwable var7) {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (Throwable var6) {
+                        var7.addSuppressed(var6)
+                    }
+                }
+                throw var7;
+            }
+            if (stmt != null){
+                stmt.close();
+            }
+        } catch (SQLException var8){
+            var8.printStackTrace();
+        }
     }
 
     public void batchAddToFeed(Post toAdd, List<String> aliases) {
