@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static DAO.SQLConnection.*;
+
 public class SQLInitTables {
+
 
     static {
         try {
@@ -20,7 +23,7 @@ public class SQLInitTables {
 
     public void openConnection() {
         conn = null;
-        String connectionURL = "jdbc:mysql://localhost:3306/Jacebook?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String connectionURL = _connectionURL;
 
         try {
             conn = DriverManager.getConnection(connectionURL, "web", "web");
@@ -58,7 +61,7 @@ public class SQLInitTables {
         }
     }
 
-    private void runSQL(String runStatement){
+    public void runSQL(String runStatement){
         openConnection();
 
         try{
@@ -127,17 +130,17 @@ public class SQLInitTables {
                 "(authToken VARCHAR(255) NOT NULL UNIQUE, " +
                 "alias VARCHAR(255) NOT NULL, " +
                 "timestamp VARCHAR(255) NOT NULL, " +
-                "PRIMARY KEY (AuthToken), " +
-                "FOREIGN KEY (Alias) REFERENCES Users(Alias));";
+                "PRIMARY KEY (authToken), " +
+                "FOREIGN KEY (alias) REFERENCES Users(alias));";
         runSQL(authToken);
 
         String feed = "Create TABLE IF NOT EXISTS Feed " +
-                "(FeedID VARCHAR(255) NOT NULL UNIQUE, " +
+                "(feedID VARCHAR(255) NOT NULL UNIQUE, " +
                 "alias VARCHAR(255) NOT NULL, " +
                 "postID VARCHAR(255) NOT NULL, " +
-                "PRIMARY KEY (FeedID), " +
-                "FOREIGN KEY (Alias) REFERENCES Users(Alias), " +
-                "FOREIGN KEY (PostID) REFERENCES Posts(PostID));";
+                "PRIMARY KEY (feedID), " +
+                "FOREIGN KEY (alias) REFERENCES Users(alias), " +
+                "FOREIGN KEY (postID) REFERENCES Posts(postID));";
         runSQL(feed);
 
     }
