@@ -46,7 +46,6 @@ public class SQLPostsDAO implements IPostsDAO {
 
     @Override
     public Post getPost(String postID) {
-        List<Post> posts = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT Posts.*, Users.name , group_concat(Hashtags.hashtag) as hashtags" +
                 "FROM Posts JOIN Users ON Posts.alias = Users.alias " +

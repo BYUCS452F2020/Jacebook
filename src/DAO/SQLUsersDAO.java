@@ -1,11 +1,15 @@
 package DAO;
 
+import Model.Post;
 import Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class SQLUsersDAO implements IUsersDAO {
@@ -64,11 +68,39 @@ public class SQLUsersDAO implements IUsersDAO {
     }
 
     public User getUser(String alias) {
-        return new User(alias, "Vader", "https://pbs.twimg.com/profile_images/3103894633/e0d179fc5739a20308331b432e4f3a51.jpeg");
+        ResultSet rs = null;
+        String sql = "SELECT Users.* FROM Users " +
+                "JOIN Hashtags on Posts.postID = Hashtags.postID" +
+                "WHERE Posts.postID = ? ;" ;
+        User user = null;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, alias);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                String userAlias = rs.getString("alias");
+                String name = rs.getString("name");
+                String photo = rs.getString("photo");
+                user = new User(userAlias,name, photo);
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //throw new DataAccessException("Error encountered while finding posts");
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return null;
     }
 
     public User verifyUser(String alias, String password) {
-        return new User(alias, "Vader", "https://pbs.twimg.com/profile_images/3103894633/e0d179fc5739a20308331b432e4f3a51.jpeg");
+        return getUser(alias);
     }
 
     public boolean aliasAvailable(String alias) {
