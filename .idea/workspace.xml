@@ -89,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1600445233710</updated>
-      <workItem from="1603931199758" duration="9879000" />
+      <workItem from="1603931199758" duration="13239000" />
     </task>
     <task id="LOCAL-00001" summary="Create Backend">
       <created>1601048972651</created>
@@ -109,11 +109,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="Create Backend" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="689" y="387" width="433" height="216" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1604014694607">
+    <state x="689" y="387" width="433" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1604017033632">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="551" y="307" width="433" height="216" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1603932034532" />
-    <state x="689" y="387" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1604014694607" />
+    <state x="689" y="387" width="433" height="217" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1604017033632" />
     <state x="678" y="161" key="FileChooserDialogImpl" timestamp="1603932713056">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -130,5 +130,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1235" y="271" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604014793792" />
+    <state x="1103" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1604018514846">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1103" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604018514846" />
   </component>
 </project>

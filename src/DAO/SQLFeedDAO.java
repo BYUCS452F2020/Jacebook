@@ -4,8 +4,10 @@ import Model.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,9 +53,42 @@ public class SQLFeedDAO implements IFeedDAO {
 
     public List<Post> getFeed(String alias) {
         List posts = new ArrayList<Post>();
-        posts.add(new Post("WannabeBruce", "Trump 2020!", "id", "Norbert Martin", null, null, null, "Now", "null", "null", "https://s3.amazonaws.com/gunmemorial-media/photo/51004.jpg"));
-        posts.add(new Post("FratBoiBlack", "Idk man is logic really black tho?", "id2", "Miguel Negro", null, null, null, "Yesterday", "https://d.newsweek.com/en/full/794511/logic-rapper.jpg?w=1600&h=1200&q=88&f=5a61037cd591eae2e66e1158dd564bd8", "null", "https://cdn.shopify.com/s/files/1/1740/0489/products/SUMMER_WEIGHT_PORCH_WHITE_620x.jpg?v=1581466432"));
-        return posts;
+        ResultSet rs = null;
+        String sql = "SELECT Posts.*, Feed.alias " +
+                "JOIN Feed on Posts.postID = Feed.postID " +
+                "WHERE alias = ? " +
+                "GROUP BY Posts.postID;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, alias);
+            rs = stmt.executeQuery();
+            while (rs.next()){
+                String userAlias = rs.getString("Posts.alias");
+                String content = rs.getString("content");
+                String postID = rs.getString("postID");
+                String name = rs.getString("name");
+                String timestamp = rs.getString("timestamp");
+                String image = rs.getString("image");
+                String video = rs.getString("video");
+                String photo = rs.getString("photo");
+                String hashtagString = rs.getString("hashtags");
+                List<String> hashtags = Arrays.asList(hashtagString.split("\\s*,\\s*"));
+
+                Post post = new Post(userAlias, content, postID, name, new ArrayList<String>(), hashtags, new ArrayList<String>(), timestamp, image, video, photo);
+                posts.add(post);
+            }
+            return posts;
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+          if (rs != null) {
+              try {
+                  rs.close();
+              } catch (SQLException e){
+                  e.printStackTrace();
+              }
+          }
+        }
+        return null;
     }
 
     public List<Post> getFeed(String alias, int pageSize, String lastPostID) {

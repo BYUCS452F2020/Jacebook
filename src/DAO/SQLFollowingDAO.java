@@ -2,7 +2,9 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,7 +73,30 @@ public class SQLFollowingDAO implements IFollowingDAO {
     }
 
     public List<String> getFollowing(String alias, Integer pageSize, String last){
-        return;
+        List<String> following = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT Following.* FROM Users " +
+                "JOIN Following on Users.alias = Following.userAlias " +
+                "WHERE Users.alias = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, alias);
+            rs = stmt.executeQuery();
+            while (rs.next()){
+                following.add(rs.getString("followerAlias"));
+            }
+            return following;
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if (rs != null){
+                try{
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
     public boolean isFollowing(String alias, String followAlias) {
