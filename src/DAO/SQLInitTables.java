@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static DAO.SQLConnection.*;
+
 public class SQLInitTables {
 
-    private static String _connectionURL ="jdbc:mysql://localhost:3306/Jacebook?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     static {
         try {
