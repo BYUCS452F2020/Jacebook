@@ -19,7 +19,7 @@ public class SignOut implements HttpHandler {
     // constructor initializes data access objects and gson
     public SignOut() {
         g = new Gson();
-        authTokenDAO = new SQLAuthTokenDAO();
+        authTokenDAO = new SQLAuthTokenDAO(conn);
     }
 
     @Override

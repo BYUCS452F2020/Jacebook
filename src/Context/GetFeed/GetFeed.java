@@ -1,10 +1,8 @@
 package Context.GetFeed;
 
 import Context.HttpUtils;
-import Context.SignIn.SignInResponse;
 import DAO.*;
 import Model.Post;
-import Model.User;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -24,7 +22,7 @@ public class GetFeed implements HttpHandler {
     public GetFeed() {
         g = new Gson();
         usersDAO = new SQLUsersDAO();
-        feedDao = new SQLFeedDAO();
+        feedDao = new SQLFeedDAO(conn);
     }
 
     @Override
