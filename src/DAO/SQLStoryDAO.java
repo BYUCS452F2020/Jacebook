@@ -56,7 +56,7 @@ public class SQLStoryDAO implements IStoryDAO {
             while (rs.next()) {
                 String userAlias = rs.getString("Posts.alias");
                 String content = rs.getString("content");
-                String postID = rs.getString("postID");
+                String postID = rs.getString("Posts.postID");
                 String name = rs.getString("name");
                 String timestamp = rs.getString("timestamp");
                 String image = rs.getString("image");
