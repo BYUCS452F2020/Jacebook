@@ -1,11 +1,8 @@
 package Context.GetProfile;
 
 import Context.HttpUtils;
-import Context.SignIn.SignInResponse;
-import DAO.IAuthTokenDAO;
 import DAO.IUsersDAO;
-import DAO.SQLAuthTokenDAO;
-import DAO.SQLUsersDAO;
+import DAO.SQL.SQLUsersDAO;
 import Model.User;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;

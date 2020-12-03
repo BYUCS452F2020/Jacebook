@@ -1,62 +1,60 @@
-package DAO;
+package DAO.SQL;
 
+import DAO.IHashtagDAO;
 import Model.Post;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
-
-public class SQLStoryDAO implements IStoryDAO {
+public class SQLHashtagDAO implements IHashtagDAO {
     private Connection conn;
 
-    public SQLStoryDAO(Connection conn) {
+    public SQLHashtagDAO(Connection conn) {
         this.conn = conn;
     }
 
-    public SQLStoryDAO(){
+    public SQLHashtagDAO(){
         this.conn = SQLConnection.getConn();
     }
-
     @Override
-    public void addToStory(Post toAdd) {
-        String sql = "INSERT INTO Posts (postID, alias, content, timestamp, image, video) " +
-                "VALUES(?,?,?,?,?,?)";
+    public void addHashtag(Post toAdd, String hashtag) {
+        String sql = "INSERT INTO Hashtags (hashtagID, hashtag, postID) VALUES(?,?,?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, toAdd.id);
-            stmt.setString(2, toAdd.alias);
-            stmt.setString(3, toAdd.content);
-            stmt.setString(4, toAdd.timestamp);
-            stmt.setString(5, toAdd.image);
-            stmt.setString(6, toAdd.video);
+            stmt.setString(1, UUID.randomUUID().toString());
+            stmt.setString(2, hashtag);
+            stmt.setString(3, toAdd.id);
 
             stmt.executeUpdate();
             SQLConnection.closeConnection(true);
         } catch (SQLException e) {
             SQLConnection.closeConnection(false);
-             e.printStackTrace();
+            e.printStackTrace();
             //throw new DataAccessException("Error encountered while inserting into the database");
         }
     }
 
     @Override
-    public List<Post> getStory(String alias) {
+    public List<Post> getHashtag(String hashtag) {
         List<Post> posts = new ArrayList<>();
         ResultSet rs = null;
-        String sql = "SELECT Posts.*, Users.name , group_concat(Hashtags.hashtag) as hashtags" +
-                "FROM Posts JOIN Users ON Posts.alias = Users.alias " +
+        String sql = "SELECT Posts.*, Hashtags.hashtag" +
                 "JOIN Hashtags on Posts.postID = Hashtags.postID" +
-                "WHERE Posts.alias = ? " +
-                "GROUP by Posts.postID;";
+                "WHERE hashtag = ? " +
+                "GROUP BY Posts.postID;" ;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, alias);
+            stmt.setString(1, hashtag);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String userAlias = rs.getString("Posts.alias");
                 String content = rs.getString("content");
-                String postID = rs.getString("Posts.postID");
+                String postID = rs.getString("postID");
                 String name = rs.getString("name");
                 String timestamp = rs.getString("timestamp");
                 String image = rs.getString("image");
@@ -83,10 +81,10 @@ public class SQLStoryDAO implements IStoryDAO {
 
         }
         return null;
-    }
+}
 
     @Override
-    public List<Post> getStory(String alias, int pageSize, String lastPostID) {
+    public List<Post> getHashtag(String hashtag, int pageSize, String lastPostID) {
         return null;
     }
 }

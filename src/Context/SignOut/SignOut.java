@@ -2,7 +2,7 @@ package Context.SignOut;
 
 import Context.HttpUtils;
 import DAO.IAuthTokenDAO;
-import DAO.SQLAuthTokenDAO;
+import DAO.SQL.SQLAuthTokenDAO;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;

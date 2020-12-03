@@ -1,27 +1,27 @@
-package DAO;
+package DAO.SQL;
 
+import DAO.IStoryDAO;
 import Model.Post;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SQLPostsDAO implements IPostsDAO {
+
+public class SQLStoryDAO implements IStoryDAO {
     private Connection conn;
 
-    public SQLPostsDAO(Connection conn) {
+    public SQLStoryDAO(Connection conn) {
         this.conn = conn;
     }
 
-    public SQLPostsDAO(){
+    public SQLStoryDAO(){
         this.conn = SQLConnection.getConn();
     }
+
     @Override
-    public void addPost(Post toAdd) {
+    public void addToStory(Post toAdd) {
         String sql = "INSERT INTO Posts (postID, alias, content, timestamp, image, video) " +
                 "VALUES(?,?,?,?,?,?)";
 
@@ -32,33 +32,32 @@ public class SQLPostsDAO implements IPostsDAO {
             stmt.setString(4, toAdd.timestamp);
             stmt.setString(5, toAdd.image);
             stmt.setString(6, toAdd.video);
+
             stmt.executeUpdate();
             SQLConnection.closeConnection(true);
         } catch (SQLException e) {
             SQLConnection.closeConnection(false);
-            e.printStackTrace();
+             e.printStackTrace();
             //throw new DataAccessException("Error encountered while inserting into the database");
         }
-        SQLHashtagDAO hashtagDAO = new SQLHashtagDAO();
-        for(String tag : toAdd.hashtags) hashtagDAO.addHashtag(toAdd,tag);
-
     }
 
     @Override
-    public Post getPost(String postID) {
+    public List<Post> getStory(String alias) {
+        List<Post> posts = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT Posts.*, Users.name , group_concat(Hashtags.hashtag) as hashtags" +
                 "FROM Posts JOIN Users ON Posts.alias = Users.alias " +
                 "JOIN Hashtags on Posts.postID = Hashtags.postID" +
-                "WHERE Posts.postID = ? ;" ;
-        Post post = null;
+                "WHERE Posts.alias = ? " +
+                "GROUP by Posts.postID;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, postID);
+            stmt.setString(1, alias);
             rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 String userAlias = rs.getString("Posts.alias");
                 String content = rs.getString("content");
-                String postIDNum = rs.getString("postID");
+                String postID = rs.getString("Posts.postID");
                 String name = rs.getString("name");
                 String timestamp = rs.getString("timestamp");
                 String image = rs.getString("image");
@@ -67,10 +66,10 @@ public class SQLPostsDAO implements IPostsDAO {
                 String hashtagString = rs.getString("hashtags");
                 List<String> hashtags = Arrays.asList(hashtagString.split("\\s*,\\s*"));
 
-                post = new Post(userAlias,content,postIDNum,name,new ArrayList<String>(),hashtags,new ArrayList<String>(),timestamp,image,video,photo);
-
+                Post post = new Post(userAlias,content,postID,name,new ArrayList<String>(),hashtags,new ArrayList<String>(),timestamp,image,video,photo);
+                posts.add(post);
             }
-            return post;
+            return posts;
         } catch (SQLException e) {
             e.printStackTrace();
             //throw new DataAccessException("Error encountered while finding posts");
@@ -84,6 +83,11 @@ public class SQLPostsDAO implements IPostsDAO {
             }
 
         }
+        return null;
+    }
+
+    @Override
+    public List<Post> getStory(String alias, int pageSize, String lastPostID) {
         return null;
     }
 }

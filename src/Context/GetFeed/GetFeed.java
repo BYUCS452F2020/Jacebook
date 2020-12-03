@@ -2,6 +2,8 @@ package Context.GetFeed;
 
 import Context.HttpUtils;
 import DAO.*;
+import DAO.SQL.SQLFeedDAO;
+import DAO.SQL.SQLUsersDAO;
 import Model.Post;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;

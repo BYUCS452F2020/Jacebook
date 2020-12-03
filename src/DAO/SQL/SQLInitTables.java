@@ -1,11 +1,11 @@
-package DAO;
+package DAO.SQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static DAO.SQLConnection.*;
+import static DAO.SQL.SQLConnection.*;
 
 public class SQLInitTables {
 

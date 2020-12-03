@@ -1,16 +1,12 @@
-package DAO;
+package DAO.SQL;
 
-import Model.Post;
+import DAO.IUsersDAO;
 import Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 public class SQLUsersDAO implements IUsersDAO {
     private final Connection conn;

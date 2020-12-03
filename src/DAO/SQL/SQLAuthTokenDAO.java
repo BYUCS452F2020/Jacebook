@@ -1,4 +1,6 @@
-package DAO;
+package DAO.SQL;
+
+import DAO.IAuthTokenDAO;
 
 import java.sql.Timestamp;
 import java.util.Date;

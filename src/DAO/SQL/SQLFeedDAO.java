@@ -1,5 +1,6 @@
-package DAO;
+package DAO.SQL;
 
+import DAO.IFeedDAO;
 import Model.Post;
 
 import java.sql.Connection;

@@ -1,5 +1,6 @@
-package DAO;
+package DAO.SQL;
 
+import DAO.IPostsDAO;
 import Model.Post;
 
 import java.sql.Connection;
@@ -9,27 +10,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
-public class SQLHashtagDAO implements IHashtagDAO {
+public class SQLPostsDAO implements IPostsDAO {
     private Connection conn;
 
-    public SQLHashtagDAO(Connection conn) {
+    public SQLPostsDAO(Connection conn) {
         this.conn = conn;
     }
 
-    public SQLHashtagDAO(){
+    public SQLPostsDAO(){
         this.conn = SQLConnection.getConn();
     }
     @Override
-    public void addHashtag(Post toAdd, String hashtag) {
-        String sql = "INSERT INTO Hashtags (hashtagID, hashtag, postID) VALUES(?,?,?)";
+    public void addPost(Post toAdd) {
+        String sql = "INSERT INTO Posts (postID, alias, content, timestamp, image, video) " +
+                "VALUES(?,?,?,?,?,?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, UUID.randomUUID().toString());
-            stmt.setString(2, hashtag);
-            stmt.setString(3, toAdd.id);
-
+            stmt.setString(1, toAdd.id);
+            stmt.setString(2, toAdd.alias);
+            stmt.setString(3, toAdd.content);
+            stmt.setString(4, toAdd.timestamp);
+            stmt.setString(5, toAdd.image);
+            stmt.setString(6, toAdd.video);
             stmt.executeUpdate();
             SQLConnection.closeConnection(true);
         } catch (SQLException e) {
@@ -37,23 +40,26 @@ public class SQLHashtagDAO implements IHashtagDAO {
             e.printStackTrace();
             //throw new DataAccessException("Error encountered while inserting into the database");
         }
+        SQLHashtagDAO hashtagDAO = new SQLHashtagDAO();
+        for(String tag : toAdd.hashtags) hashtagDAO.addHashtag(toAdd,tag);
+
     }
 
     @Override
-    public List<Post> getHashtag(String hashtag) {
-        List<Post> posts = new ArrayList<>();
+    public Post getPost(String postID) {
         ResultSet rs = null;
-        String sql = "SELECT Posts.*, Hashtags.hashtag" +
+        String sql = "SELECT Posts.*, Users.name , group_concat(Hashtags.hashtag) as hashtags" +
+                "FROM Posts JOIN Users ON Posts.alias = Users.alias " +
                 "JOIN Hashtags on Posts.postID = Hashtags.postID" +
-                "WHERE hashtag = ? " +
-                "GROUP BY Posts.postID;" ;
+                "WHERE Posts.postID = ? ;" ;
+        Post post = null;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, hashtag);
+            stmt.setString(1, postID);
             rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 String userAlias = rs.getString("Posts.alias");
                 String content = rs.getString("content");
-                String postID = rs.getString("postID");
+                String postIDNum = rs.getString("postID");
                 String name = rs.getString("name");
                 String timestamp = rs.getString("timestamp");
                 String image = rs.getString("image");
@@ -62,10 +68,10 @@ public class SQLHashtagDAO implements IHashtagDAO {
                 String hashtagString = rs.getString("hashtags");
                 List<String> hashtags = Arrays.asList(hashtagString.split("\\s*,\\s*"));
 
-                Post post = new Post(userAlias,content,postID,name,new ArrayList<String>(),hashtags,new ArrayList<String>(),timestamp,image,video,photo);
-                posts.add(post);
+                post = new Post(userAlias,content,postIDNum,name,new ArrayList<String>(),hashtags,new ArrayList<String>(),timestamp,image,video,photo);
+
             }
-            return posts;
+            return post;
         } catch (SQLException e) {
             e.printStackTrace();
             //throw new DataAccessException("Error encountered while finding posts");
@@ -79,11 +85,6 @@ public class SQLHashtagDAO implements IHashtagDAO {
             }
 
         }
-        return null;
-}
-
-    @Override
-    public List<Post> getHashtag(String hashtag, int pageSize, String lastPostID) {
         return null;
     }
 }

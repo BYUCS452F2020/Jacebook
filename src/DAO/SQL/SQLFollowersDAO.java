@@ -1,4 +1,6 @@
-package DAO;
+package DAO.SQL;
+
+import DAO.IFollowersDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SQLFollowersDAO implements IFollowersDAO{
+public class SQLFollowersDAO implements IFollowersDAO {
     private final Connection conn;
 
     public SQLFollowersDAO(Connection conn) {

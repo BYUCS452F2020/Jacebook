@@ -1,4 +1,6 @@
-package DAO;
+package DAO.SQL;
+
+import DAO.IFollowingDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
